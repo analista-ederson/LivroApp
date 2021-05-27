@@ -1,0 +1,175 @@
+<section class="ml-3 mr-3">
+    <div class="mt-5">
+        <h4 class="display">Manutenção dos Livros</h4>
+        <hr/>
+    </div>
+    <div class="d-flex flex-row-reverse">
+        <button mdbWavesEffect data-target="#livromodal" data-toggle="modal" class="btn btn-info">Adicionar</button>
+    </div>
+    <table class="mt-2" mdbTable hover="true" shadow>
+        <thead class="info-color-dark text-white">
+            <tr>
+                <th>ID</th>
+                <th>Título</th>
+                <th>Autor</th>
+                <th>Editora</th>
+                <th>Edição</th>
+                <th>Ações</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            <tr *ngFor="let l of livros">
+                <td>{{l.CodLivro}}</td>
+                <td>{{l.Titulo}}</td>
+                <td>{{l.NomeAutor}}</td>
+                <td>{{l.Editora}}</td>
+                <td>{{l.Edicao}}</td>
+                <td>
+                    <a href="#" mdbWavesEffect (click)="excluir(l.CodLivro)">
+                        <mdb-icon style="font-size:20px;color:red;" fas icon="trash-alt"></mdb-icon>
+                    </a> &nbsp; 
+                    <a href="#" mdbWavesEffect data-target="#livromodal" (click)="editItem(l.CodLivro)" data-toggle="modal">
+                        <mdb-icon style="font-size:20px;color:blue;" fas icon="edit"></mdb-icon>
+                    </a>
+                </td>
+            </tr>
+        </tbody>
+
+        <tfoot>
+            <tr>
+                <td colspan="6">Quantidade de Registros: {{livros.length}}</td>
+            </tr>
+        </tfoot>
+    </table>
+    <div id="livromodal" class="modal fade">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header unique-color-dark text-white">
+                    <h5>Cadastro de Livros</h5>
+                    <hr/>
+                </div>
+                <div class="modal-body">
+                    <form [formGroup]="form">
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="md-form">
+                                    <input mdbValidate mdbInput type="text" #titulo formControlName="titulo" class="form-control">
+                                    <label for="titulo" class="">Titulo</label>
+                                    <mdb-error *ngIf="titulo.invalid && (titulo.dirty || titulo.touched)"></mdb-error>
+                                    <mdb-success *ngIf="titulo.valid && (titulo.dirty || titulo.touched)"></mdb-success>
+                                    <div *ngIf="!titulo.pristine && titulo.errors">
+                                        <p *ngIf="titulo.errors.required">
+                                            O título é obrigatório.
+                                        </p>
+                                        <p *ngIf="titulo.errors.minlength">
+                                            O título deve ter no mínimo 3 caracteres.
+                                        </p>
+                                        <p *ngIf="titulo.errors.maxlength">
+                                            O título deve ter no máximo 40 caracteres.
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="md-form">
+                                    <input mdbValidate mdbInput type="text" #editora formControlName="editora" class="form-control">
+                                    <label for="editora" class="">Editora</label>
+                                    <mdb-error *ngIf="editora.invalid && (editora.dirty || editora.touched)"></mdb-error>
+                                    <mdb-success *ngIf="editora.valid && (editora.dirty || editora.touched)"></mdb-success>
+                                    <div *ngIf="!editora.pristine && editora.errors">
+                                        <p *ngIf="editora.errors.required">
+                                            A editora é obrigatório.
+                                        </p>
+                                        <p *ngIf="editora.errors.minlength">
+                                            A editora deve ter no mínimo 3 caracteres.
+                                        </p>
+                                        <p *ngIf="editora.errors.maxlength">
+                                            A editora deve ter no máximo 20 caracteres.
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="md-form">
+                                    <input mdbValidate mdbInput type="number" #edicao formControlName="edicao" class="form-control">
+                                    <label for="edicao" class="">Edição</label>
+                                    <mdb-error *ngIf="edicao.invalid && (edicao.dirty || edicao.touched)"></mdb-error>
+                                    <mdb-success *ngIf="edicao.valid && (edicao.dirty || edicao.touched)"></mdb-success>
+                                    <div *ngIf="!edicao.pristine && edicao.errors">
+                                        <p *ngIf="edicao.errors.required">
+                                            A edição é obrigatório.
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="md-form">
+                                    <input mdbValidate mdbInput type="text" #autor formControlName="autor" class="form-control">
+                                    <label for="autor" class="">Autor</label>
+                                    <mdb-error *ngIf="autor.invalid && (autor.dirty || autor.touched)"></mdb-error>
+                                    <mdb-success *ngIf="autor.valid && (autor.dirty || autor.touched)"></mdb-success>
+                                    <div *ngIf="!autor.pristine && autor.errors">
+                                        <p *ngIf="autor.errors.required">
+                                            O nome do autor é obrigatório.
+                                        </p>
+                                        <p *ngIf="autor.errors.minlength">
+                                            O nome do autor deve ter no mínimo 3 caracteres.
+                                        </p>
+                                        <p *ngIf="autor.errors.maxlength">
+                                            O nome do autor deve ter no máximo 20 caracteres.
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="md-form">
+                                    <input mdbValidate mdbInput type="text" #anoPublicacao formControlName="anoPublicacao" class="form-control">
+                                    <label for="anoPublicacao" class="">Ano da Publicaco</label>
+                                    <mdb-error *ngIf="anoPublicacao.invalid && (anoPublicacao.dirty || anoPublicacao.touched)"></mdb-error>
+                                    <mdb-success *ngIf="anoPublicacao.valid && (anoPublicacao.dirty || anoPublicacao.touched)"></mdb-success>
+                                    <div *ngIf="!anoPublicacao.pristine && anoPublicacao.errors">
+                                        <p *ngIf="anoPublicacao.errors.required">
+                                            O ano da publicação é obrigatório.
+                                        </p>
+                                        <p *ngIf="anoPublicacao.errors.minlength">
+                                            O ano da publicação deve ter no mínimo 4 caracteres.
+                                        </p>
+                                        <p *ngIf="anoPublicacao.errors.maxlength">
+                                            O ano da publicação deve ter o formato AAAA.
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="md-form">
+                                    <input mdbValidate mdbInput type="descricao" #descricao formControlName="descricao" class="form-control">
+                                    <label for="descricao" class="">Descricao</label>
+                                    <mdb-error *ngIf="descricao.invalid && (descricao.dirty || descricao.touched)"></mdb-error>
+                                    <mdb-success *ngIf="descricao.valid && (descricao.dirty || descricao.touched)"></mdb-success>                                    
+                                </div>
+                                <div *ngIf="!descricao.pristine && descricao.errors">
+                                    <p *ngIf="descricao.errors.required">
+                                        A descrição é obrigatório.
+                                    </p>
+                                    <p *ngIf="descricao.errors.minlength">
+                                        A descrição deve ter no mínimo 4 caracteres.
+                                    </p>
+                                    <p *ngIf="descricao.errors.maxlength">
+                                        A descrição deve ter no máximo 40 caracteres..
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" mdbWavesEffect wavesEffect class="btn btn-primary" (click)="form.reset()" data-dismiss="modal">Fechar</button>
+                    <button type="button" mdbWavesEffect (click)="salvar()" wavesEffect class="btn btn-success" data-dismiss="modal">Salvar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
